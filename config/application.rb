@@ -62,8 +62,8 @@ module FBCanvasRails
     require "#{config.root}/app/lib/ext/hash"
 
     $fb_config      = YAML.load_file("#{config.root}/config/facebook.yml")[Rails.env]
-    $fb_app_id      = $fb_config['app_id']
-    $fb_secret      = $fb_config['secret_key']
+    $fb_app_id      = ENV['FB_APP_ID_TEST']
+    $fb_secret      = ENV['FB_SECRET_TEST']
     $fb_app_url     = $fb_config['app_url'] # https://www.varagesale.com
     $fb_url         = $fb_config['fb_url']  # https://apps.facebook.com/varagesale
     $fb_channel_url = $fb_config['channel_url']

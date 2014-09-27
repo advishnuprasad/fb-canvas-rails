@@ -8,13 +8,13 @@
 
   <script type="text/javascript">
     // If our app is not loaded in a canvas, refresh and load inside a canvas
-    if (window == window.top) {
-      window.top.location = "<%= facebook_iframed_url %>";
-    }
+    // if (window == window.top) {
+    //   window.top.location = "<%= facebook_iframed_url %>";
+    // }
 
-    // This is where we store the session data
-    window.Application = {};
-    window.Application.meta = <%= raw page_metadata.to_json %>;
+    // // This is where we store the session data
+    // window.Application = {};
+    // window.Application.meta = <%= raw page_metadata.to_json %>;
   </script>
 </head>
 <body>

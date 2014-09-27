@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   # and request.env['facebook.params'].
   #
   def detect_facebook_post!
+    logger.info "Am getting called"
+    logger.info request.env['facebook.params']
     if request.env['facebook.params']
       logger.info "Received POST w/ signed_request from Facebook."
       log_in_with_facebook request.env['facebook.params']
@@ -27,6 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def log_in_with_facebook(auth_hash)
+    logger.info auth_hash
     if auth_hash['uid'] || auth_hash['user_id']
       logger.info "Logging in with Facebook..."
       if get_session[:user].nil? || (auth_hash['uid'] || auth_hash['user_id']).try(:to_i) != get_session[:user][:uid]
