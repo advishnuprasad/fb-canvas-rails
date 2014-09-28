@@ -69,6 +69,6 @@ module FBCanvasRails
     $fb_channel_url = $fb_config['channel_url']
 
     # Make Facebook signed_request POSTs behave more RESTfully
-    config.middleware.use Rack::Facebook::SignedRequest, app_id: $fb_app_id, secret: $fb_secret, inject_facebook: false, scope: "manage_pages,user_likes"
+    config.middleware.use Rack::Facebook::SignedRequest, app_id: $fb_app_id, secret: $fb_secret, inject_facebook: false
   end
 end
