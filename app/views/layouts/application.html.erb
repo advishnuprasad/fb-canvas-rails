@@ -7,15 +7,16 @@
   <script src="http://connect.facebook.net/en_US/all.js"></script> 
   <%= csrf_meta_tags %>
 
+  
   <script type="text/javascript">
-    FB.init({
+   
+    $(document).ready(function(){
+       FB.init({
       appId  : "<%= ENV['FB_APP_ID_TEST']%>",
       status : true, 
       cookie : true, 
       xfbml  : true  
     });
-    $(document).ready(function(){
-
       FB.getLoginStatus(function(response) {
         console.log(response)
             if (response.status == 'connected') {
