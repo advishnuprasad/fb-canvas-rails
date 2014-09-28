@@ -24,7 +24,7 @@
                 var page_id = "330123823834776"; //coca cola
                 // var the_query = FB.Data.query(fql_query);
 
-                FB.api('/me/likes/330123823834776', function(response) {
+                FB.api('/'+user_id+'/likes/330123823834776', function(response) {
                 // the_query.wait(function(rows) {
 
                     console.log(response.data);
