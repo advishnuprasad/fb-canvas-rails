@@ -1,2 +1,5 @@
-<h3>Index</h3>
-<%= render :partial => 'current_user' %>
+<% if current_user %>
+  <p>Logged in (<%= current_user.email %>) </p>
+<% else %>
+  <p>Not logged in!</p>
+<% end %>

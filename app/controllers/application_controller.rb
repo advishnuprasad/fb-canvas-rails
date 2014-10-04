@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   layout :set_layout
 
   helper_method :get_session
-  helper_method :logged_in?
+  helper_method :logged_in?, :current_user
 
   #
   # Detect if we're received a POST with a signed_request parameter.
@@ -32,16 +32,17 @@ class ApplicationController < ActionController::Base
     logger.info auth_hash
     if auth_hash['uid'] || auth_hash['user_id']
       logger.info "Logging in with Facebook..."
-      if get_session[:user].nil? || (auth_hash['uid'] || auth_hash['user_id']).try(:to_i) != get_session[:user][:uid]
+      if current_user.nil?
         logger.info "Logging in user #{auth_hash['uid'] || auth_hash['user_id']}"
 
         # In real life, you'd perform some real authentication here
-        u = {}
-        u[:uid]              = (auth_hash['uid'] || auth_hash['user_id']).to_i
-        u[:token]            = auth_hash.value_at_path 'credentials', 'token'
-        u[:token_expires_at] = Time.at(auth_hash.value_at_path('credentials', 'expires_at').to_i)
-        u[:logged_in_at]     = Time.now
-        session[:user] = u
+        # user = User.from_omniauth(auth_hash)
+        # u = {}
+        # u[:uid]              = (auth_hash['uid'] || auth_hash['user_id']).to_i
+        # u[:token]            = auth_hash.value_at_path 'credentials', 'token'
+        # u[:token_expires_at] = Time.at(auth_hash.value_at_path('credentials', 'expires_at').to_i)
+        # u[:logged_in_at]     = Time.now
+        session[:user_id] = user.id
       end
       true
     else
@@ -51,12 +52,23 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_user
+    @current_user ||= begin
+      if session[:user_id]
+        User.find(session[:user_id])
+      else
+        nil
+      end
+    end
+    @current_user
+  end
+
   def logged_in?
-    !! get_session[:user]
+    !! get_session[:user_id]
   end
 
   def log_out
-    session[:user] = nil
+    session[:user_id] = nil
   end
 
   # Get the session. If it's present in the header, this has precedence over the regular cookie session.

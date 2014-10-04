@@ -3,7 +3,10 @@ class SessionController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
-    if log_in_with_facebook request.env['omniauth.auth']
+    logger.info request.env['omniauth.auth']
+    if request.env['omniauth.auth']
+      user = User.from_omniauth(request.env['omniauth.auth'])
+      session[:user_id] = user.id
       redirect_to '/'
     else
       logger.info "Failed to create a session"
