@@ -42,6 +42,10 @@ class ApplicationController < ActionController::Base
         # u[:token]            = auth_hash.value_at_path 'credentials', 'token'
         # u[:token_expires_at] = Time.at(auth_hash.value_at_path('credentials', 'expires_at').to_i)
         # u[:logged_in_at]     = Time.now
+        user = User.where(provider: 'facebook', email: auth_hash['user_id']).first_or_create do |user|
+          user.encrypted_password = "password"
+          user.last_sign_in_at = Time.now
+        end
         session[:user_id] = user.id
       end
       true
