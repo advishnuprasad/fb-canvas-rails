@@ -1,5 +1,43 @@
 <% if current_user %>
-  <p>Logged in (<%= current_user.email %>) </p>
+  <p>Logged in as (<%= current_user.email %>) </p>
 <% else %>
   <p>Not logged in!</p>
 <% end %>
+
+
+
+<script type="text/javascript">
+   
+    $(document).ready(function(){
+      FB.init({
+      appId  : "<%= ENV['FACEBOOK_KEY']%>",
+      status : true, 
+      cookie : true, 
+      xfbml  : true  
+    });
+      FB.getLoginStatus(function(response) {
+        console.log("<%= ENV['FB_PAGE_ID'] %>");
+            if (response.status == 'connected') {
+                var user_id = response.authResponse.userID;
+                var page_id = "<%= ENV['FB_PAGE_ID'] %>"; //coca cola
+                // var the_query = FB.Data.query(fql_query);
+
+                FB.api('/'+user_id+'/likes/'+ page_id, function(response) {
+                // the_query.wait(function(rows) {
+
+                    console.log(response.data);
+                    if(response.data.length){
+                      //the user already likes your page 
+                      window.top.location = "/home/dashboard"
+                    }
+                    else{
+                      //the user doesn'y like your page, or the user hasn't granted permission for you to access his likes. show him the like button
+                      alert("Not Liked");
+                      }
+                });
+            } else {
+                alert("Not Logged in");
+            }
+        });
+    });
+  </script>

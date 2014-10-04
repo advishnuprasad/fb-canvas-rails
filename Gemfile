@@ -24,3 +24,5 @@ gem 'rack-p3p'
 gem 'rack-facebook-signed-request', :git => 'git://github.com/cmer/rack-facebook-signed-request.git'
 gem 'omniauth', '~> 1.0.2'
 gem 'omniauth-facebook', '~> 1.2.0'
+
+gem "twitter-bootstrap-rails"
